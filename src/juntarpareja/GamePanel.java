@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,9 +20,9 @@ import javax.swing.JPanel;
  */
 public class GamePanel extends JPanel implements MouseListener{
      private JPanel p2;
-    private JLabel l[]= new JLabel[4];
-    private int ArreNumerico[]=new int[4];
-    private int controlRepeticiones[]=new int[2];
+    private JLabel l[]= new JLabel[30];
+    private int ArreNumerico[]=new int[30];
+    private int controlRepeticiones[]=new int[15];
 
     public GamePanel() {
         InicializarComponentes();
@@ -34,11 +35,12 @@ public class GamePanel extends JPanel implements MouseListener{
             add(Esta,BorderLayout.EAST);
             //Panel del tablero
             p2= new JPanel();
-            p2.setLayout(new GridLayout(2,2));            
+            p2.setLayout(new GridLayout(5,6));            
             add(p2,BorderLayout.CENTER);
             LlenadoLabel();
             InicializarArreglo(ArreNumerico);
             InicializarArreglo(controlRepeticiones);
+            RandonNumeros();
     }
     //Panel del tablero
     private void LlenadoLabel(){
@@ -48,6 +50,25 @@ public class GamePanel extends JPanel implements MouseListener{
             l[i].setIcon(new ImageIcon(getClass().getResource("/Imagen/Buscar.jpg"))); 
             l[i].addMouseListener(this);
             p2.add(l[i]);
+        }
+    }
+    //Metodo para generar los numeros aleatorios para cargar las imagenes en los JLeabel
+    private void RandonNumeros(){
+        int PosicionImagen;
+        Random r= new Random();
+        for (int i = 0; i < ArreNumerico.length; i++) {
+            PosicionImagen=r.nextInt(15);
+            if (controlRepeticiones[PosicionImagen]<2) {
+                ArreNumerico[i]=PosicionImagen+1;   
+                controlRepeticiones[PosicionImagen]++;
+                System.out.print(ArreNumerico[i]+",");
+            }else{
+                i--;
+            }
+            
+        }
+        for (int i = 0; i <controlRepeticiones.length; i++) {
+            System.out.print(controlRepeticiones[i]+"");
         }
     }
 
