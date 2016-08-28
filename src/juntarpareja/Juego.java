@@ -30,12 +30,13 @@ public class Juego extends JFrame{
       Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
       int height = pantalla.height;
       int width = pantalla.width;
-      setSize(width, height);		
-       setLocationRelativeTo(null);
+     //setSize(width, height);		
+      
        GamePanel e= new GamePanel();
       // Panel e=new Panel();
        add(e);
-        
+        pack();
+         setLocationRelativeTo(null);
     }
     
     

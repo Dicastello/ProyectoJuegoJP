@@ -20,9 +20,9 @@ import javax.swing.JPanel;
  */
 public class GamePanel extends JPanel implements MouseListener{
      private JPanel p2;
-    private JLabel l[]= new JLabel[30];
-    private int ArreNumerico[]=new int[30];
-    private int controlRepeticiones[]=new int[15];
+    private JLabel l[]= new JLabel[16];
+    private int ArreNumerico[]=new int[16];
+    private int controlRepeticiones[]=new int[8];
 
     public GamePanel() {
         InicializarComponentes();
@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements MouseListener{
             add(Esta,BorderLayout.EAST);
             //Panel del tablero
             p2= new JPanel();
-            p2.setLayout(new GridLayout(5,6));            
+            p2.setLayout(new GridLayout(4,4,4,4));            
             add(p2,BorderLayout.CENTER);
             LlenadoLabel();
             InicializarArreglo(ArreNumerico);
@@ -57,7 +57,7 @@ public class GamePanel extends JPanel implements MouseListener{
         int PosicionImagen;
         Random r= new Random();
         for (int i = 0; i < ArreNumerico.length; i++) {
-            PosicionImagen=r.nextInt(15);
+            PosicionImagen=r.nextInt(8);
             if (controlRepeticiones[PosicionImagen]<2) {
                 ArreNumerico[i]=PosicionImagen+1;   
                 controlRepeticiones[PosicionImagen]++;
