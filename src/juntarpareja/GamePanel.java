@@ -7,10 +7,12 @@ package juntarpareja;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Random;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -23,24 +25,34 @@ public class GamePanel extends JPanel implements MouseListener{
     private JLabel l[]= new JLabel[16];
     private int ArreNumerico[]=new int[16];
     private int controlRepeticiones[]=new int[8];
+    private JButton Rei;
 
     public GamePanel() {
+        setLayout(new BorderLayout(100,1));
+            JLabel Esta= new JLabel("Prueba");
+            add(Esta,BorderLayout.EAST);
+            Rei=new JButton();
+            Rei.setText("ONAN");
+            Rei.setSize(2, 30);
+            Rei.addMouseListener(this);
+            add(Rei,BorderLayout.EAST);
+            //Panel del tablero
+            p2= new JPanel();
+            p2.setLayout(new GridLayout(4,4,4,4));            
+            add(p2,BorderLayout.CENTER);
         InicializarComponentes();
     }
 
     private void InicializarComponentes() {
          //Panel de las estadisticas
-            setLayout(new BorderLayout());
-            JLabel Esta= new JLabel("Prueba");
-            add(Esta,BorderLayout.EAST);
-            //Panel del tablero
-            p2= new JPanel();
-            p2.setLayout(new GridLayout(4,4,4,4));            
-            add(p2,BorderLayout.CENTER);
-            LlenadoLabel();
+            
+              LlenadoLabel();
+
+            RandonNumeros();
             InicializarArreglo(ArreNumerico);
             InicializarArreglo(controlRepeticiones);
-            RandonNumeros();
+           
+            
     }
     //Panel del tablero
     private void LlenadoLabel(){
@@ -74,10 +86,12 @@ public class GamePanel extends JPanel implements MouseListener{
 
     @Override
     public void mouseClicked(MouseEvent e) throws UnsupportedOperationException{
-        
+        if (e.getSource()==Rei) {  
+              InicializarComponentes();
+            }
         for (int i = 0; i < l.length; i++) {
             if (e.getSource()==l[i]) {  
-                
+                l[i].setIcon(new ImageIcon(getClass().getResource("/Imagen/ok.jpg"))); 
             }
         }
     }
