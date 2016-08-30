@@ -11,6 +11,7 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Random;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -33,7 +34,6 @@ public class GamePanel extends JPanel implements MouseListener{
             add(Esta,BorderLayout.EAST);
             Rei=new JButton();
             Rei.setText("ONAN");
-            Rei.setSize(2, 30);
             Rei.addMouseListener(this);
             add(Rei,BorderLayout.EAST);
             //Panel del tablero
@@ -46,8 +46,7 @@ public class GamePanel extends JPanel implements MouseListener{
     private void InicializarComponentes() {
          //Panel de las estadisticas
             
-              LlenadoLabel();
-
+            LlenadoLabel();
             RandonNumeros();
             InicializarArreglo(ArreNumerico);
             InicializarArreglo(controlRepeticiones);
@@ -87,11 +86,12 @@ public class GamePanel extends JPanel implements MouseListener{
     @Override
     public void mouseClicked(MouseEvent e) throws UnsupportedOperationException{
         if (e.getSource()==Rei) {  
+           
               InicializarComponentes();
             }
         for (int i = 0; i < l.length; i++) {
             if (e.getSource()==l[i]) {  
-                l[i].setIcon(new ImageIcon(getClass().getResource("/Imagen/ok.jpg"))); 
+                l[i].setIcon(this.AjustarImagen("/Imagen/ok.jpg")); 
             }
         }
     }
@@ -113,5 +113,13 @@ public class GamePanel extends JPanel implements MouseListener{
           Arreglo[i]=0;  
         }
     }
+    //Metodo para ajutas las imagenes Automaticamente
+   private Icon AjustarImagen(String ruta){
+           ImageIcon fot = new ImageIcon(getClass().getResource(ruta));
+            Icon icono = new ImageIcon(fot.getImage().getScaledInstance(l[0].getWidth(),l[0].getHeight(), Image.SCALE_DEFAULT));
+            //jLabel1.setIcon(icono);
+             this.repaint();
+           return icono; 
+   }
     
 }

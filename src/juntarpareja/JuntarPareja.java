@@ -24,7 +24,7 @@ public class JuntarPareja {
         
        
         
-//        System.out.println("Hola");
+//        System.out.println("Hola");               
 //        Principal p = new Principal();
 //        p.setVisible(true);
     }
