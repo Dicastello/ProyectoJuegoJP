@@ -18,9 +18,15 @@ public class JuntarPareja {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Juego j=new Juego();
-        j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        j.setVisible(true);
+//        FrameInicio j=new FrameInicio();
+//        j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        j.setVisible(true);
+                
+        Juego j2=new Juego();
+        j2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        j2.setVisible(true);
+                
+               
         
        
         

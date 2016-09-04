@@ -31,8 +31,8 @@ public class Juego extends JFrame{
       int height = pantalla.height;
       int width = pantalla.width;
      //setSize(width, height);		
-      
-       GamePanel e= new GamePanel();
+      JLabel[]la = new JLabel[8];
+       GamePanel e= new GamePanel(la);
       // Panel e=new Panel();
        add(e);
         pack();

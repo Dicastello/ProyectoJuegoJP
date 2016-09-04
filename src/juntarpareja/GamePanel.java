@@ -28,8 +28,8 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel implements MouseListener{
      private JPanel Tablero,HistorialJ,JugaadorTop,PanelScor;
      private JLabel Scor,dIntentos,faIntentos;
-    private JLabel l[]= new JLabel[8];
-    private JLabel Reiniciar[]= new JLabel[8];
+    private JLabel l[];
+    private JLabel Reiniciar[];
     private int ArreNumerico[]=new int[8];
     private int controlRepeticiones[]=new int[4];
     private int ControlPareja[]=new int[8];
@@ -41,9 +41,13 @@ public class GamePanel extends JPanel implements MouseListener{
     private int Puntos=0;
     private int intentos=0;
     private int intentoF=0;
+    private int cant=0;
+
     
     
-    public GamePanel() {
+    public GamePanel(JLabel[] la) {   
+        l=la;
+        Reiniciar=la;
             setLayout(new BorderLayout());
           //  Panel del tablero
             Tablero= new JPanel();
@@ -68,7 +72,7 @@ public class GamePanel extends JPanel implements MouseListener{
             
     }
     //Metodo para armar el Panel del tablero 
-    private void LlenadoLabel(){          
+    private void LlenadoLabel(){  
         for (int i = 0; i < l.length; i++) {
             l[i]=new JLabel();
             l[i].setIcon(new ImageIcon(getClass().getResource("/Imagen/Buscar.jpg")));          
@@ -224,7 +228,7 @@ public class GamePanel extends JPanel implements MouseListener{
          
         //LABEL NUMERO DE INTENTOS           
         dIntentos=new JLabel("             0           ");
-        dIntentos.setFont(new Font("",Font.BOLD,18));
+        dIntentos.setFont(new Font("Helvetica",Font.BOLD,18));
         dIntentos.setAlignmentX(Component.LEFT_ALIGNMENT);
         p2.add(dIntentos);
         PanelScor.add(p2);
