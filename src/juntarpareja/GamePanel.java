@@ -27,13 +27,14 @@ import javax.swing.JPanel;
  */
 public class GamePanel extends JPanel implements MouseListener{
      private JPanel Tablero,HistorialJ,JugaadorTop,PanelScor;
-     private JLabel Scor,dIntentos,faIntentos;
+     private JLabel Scor,dIntentos,faIntentos,DatoMatriz;
+    private int Fila=0,Columna=0;
     private JLabel l[];
     private JLabel Reiniciar[];
-    private int ArreNumerico[]=new int[8];
-    private int controlRepeticiones[]=new int[4];
-    private int ControlPareja[]=new int[8];
-    private int CantidadDeClic[]=new int[8];
+    private int ArreNumerico[];
+    private int controlRepeticiones[];
+    private int ControlPareja[];
+    private int CantidadDeClic[];
     private JButton Rei;
     private int Click=0;
     private int Vista1=0;
@@ -42,22 +43,68 @@ public class GamePanel extends JPanel implements MouseListener{
     private int intentos=0;
     private int intentoF=0;
     private int cant=0;
-
+    private int inicio;
     
     
-    public GamePanel(JLabel[] la) {   
-        l=la;
-        Reiniciar=la;
+    public GamePanel(int i) {   
+        inicio=i; 
+        l=new JLabel[inicio];
+        Reiniciar=new JLabel[inicio];        
+        ArreNumerico=new int[inicio];
+        ControlPareja=new int[inicio];
+        CantidadDeClic=new int[inicio];
+        controlRepeticiones=new int[inicio/2];
+       
             setLayout(new BorderLayout());
           //  Panel del tablero
             Tablero= new JPanel();
-            Tablero.setLayout(new GridLayout(2,2,10,10));            
+             MostrarPuntajes();
+            TamañoMatriz();
+            Tablero.setLayout(new GridLayout(Fila,Columna,10,10));            
             add(Tablero,BorderLayout.CENTER);
             HistorialDeJugdor();            
              LlenadoLabel();
              InicializarComponentes();
             // TopJugdores();
-            MostrarPuntajes();
+            
+    }
+    // tamaño de la matriz estos parametros van en el gridLayout
+    private void TamañoMatriz(){
+        switch (inicio) {
+            case 30:
+                Fila=5;
+                Columna=6;    
+                DatoMatriz.setText("    6 X 5    ");
+                break;
+            case 24:
+                Fila=4;
+                Columna=6;
+                DatoMatriz.setText("    6 X 4    ");
+                break;
+            case 20:
+                Fila=4;
+                Columna=5;
+                DatoMatriz.setText("    5 X 4    ");
+                break;
+            case 16:
+                Fila=4;
+                Columna=4;
+                DatoMatriz.setText("    4 X 4    ");
+                break;    
+             case 12:
+                Fila=3;
+                Columna=4;
+                DatoMatriz.setText("    4 X 3    ");
+                break; 
+             case 6:
+                Fila=2;
+                Columna=3;
+                DatoMatriz.setText("    2 X 3    ");
+             break;
+                
+            default:
+                throw new AssertionError();
+        }
     }
         
     private void InicializarComponentes() {
@@ -94,7 +141,7 @@ public class GamePanel extends JPanel implements MouseListener{
         int PosicionImagen;
         Random r= new Random();
         for (int i = 0; i < ArreNumerico.length; i++) {
-            PosicionImagen=r.nextInt(4);
+            PosicionImagen=r.nextInt(inicio/2);
             if (controlRepeticiones[PosicionImagen]<2) {
                 ArreNumerico[i]=PosicionImagen+1;   
                 controlRepeticiones[PosicionImagen]++;
@@ -134,6 +181,9 @@ public class GamePanel extends JPanel implements MouseListener{
                   Click++;             
                 System.out.println(" click sair "+Click);
                 Reiniciar[i].setIcon(AjustarImagen("/Imagen/"+ArreNumerico[i]+".jpg")); 
+                    for (int j = 0; j < ArreNumerico.length; j++) {
+                        System.out.println(j+"       "+this.ArreNumerico[j]);
+                    }
                 if(Click==1){
                     Vista1 = i;   
                            System.out.println("Vista 1   "+Vista1);
@@ -147,6 +197,7 @@ public class GamePanel extends JPanel implements MouseListener{
                 }
                                 
             }
+            
         }
     }
 
@@ -166,7 +217,7 @@ public class GamePanel extends JPanel implements MouseListener{
                 if (Click==2) {
                     ValidarPareja(Vista1,vista2);
                     Click=0;
-                    System.out.println("vistas 1 y 2"+Vista1+vista2);                        
+                    System.out.println("vistas 1 y 2      "+Vista1+vista2);                        
                 }
             }
         }
@@ -202,7 +253,7 @@ public class GamePanel extends JPanel implements MouseListener{
             HistorialJ.setLayout(new BoxLayout(HistorialJ,BoxLayout.Y_AXIS));            
             add(HistorialJ,BorderLayout.EAST);
     }
-    // muestra los puntajes en el lado isquierdo de la pantalla 
+    // muestra los puntajes en el lado izquierdo de la pantalla 
     private void MostrarPuntajes(){
         PanelScor= new JPanel();
         PanelScor.setBorder(BorderFactory.createTitledBorder("SCORS"));
@@ -219,7 +270,7 @@ public class GamePanel extends JPanel implements MouseListener{
          BoxLayout layout1 = new BoxLayout(p1, BoxLayout.Y_AXIS);
          p1.setLayout(layout1);
 //         //Label MUSTRAR MAATRIZ
-        JLabel DatoMatriz= new JLabel("   oxo   ");
+        DatoMatriz= new JLabel("");
         DatoMatriz.setFont(new Font("",Font.BOLD,18));
         DatoMatriz.setAlignmentX(Component.LEFT_ALIGNMENT);
         p1.add(DatoMatriz);
@@ -256,7 +307,7 @@ public class GamePanel extends JPanel implements MouseListener{
         PanelScor.setLayout(new BoxLayout(PanelScor,BoxLayout.X_AXIS));
         add(PanelScor,BorderLayout.SOUTH);
     }
-            
+        //Validar si al 2 al dar dos click busque la pareja, si no la encuentra que la oculte    
     private void ValidarPareja(int Vist, int vist2) {
         if (ArreNumerico[Vist]==ArreNumerico[vist2]) {
             Puntos+=10;
@@ -278,7 +329,7 @@ public class GamePanel extends JPanel implements MouseListener{
           
         }
     }
-
+    // verifica si ya se presiono una ves un label 
     private boolean VerificarParejas(int i) {
         if (ControlPareja[i]!=1) {
           return true;      

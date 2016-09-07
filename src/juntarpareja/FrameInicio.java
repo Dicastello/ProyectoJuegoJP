@@ -5,13 +5,15 @@
  */
 package juntarpareja;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author MeraliCastillo
  */
 public class FrameInicio extends javax.swing.JFrame {
-      
-    /**
+      private int Auxilia[]={6,12,16,20,24,30};
+    /**30
      * Creates new form FrameInicio
      */
     public FrameInicio() {
@@ -50,7 +52,12 @@ public class FrameInicio extends javax.swing.JFrame {
 
         jLabel2.setText("MATRIZ");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "    ", "2 x 3 ", "4 x 3", "4 x 4","5 x 4", "6 x 5" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "    ", " 15   PAREJAS", " 12   PAREJAS ", " 10   PAREJAS "," 8   PAREJAS ", " 6   PAREJAS"," 4   PAREJA" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("JUGAR");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -128,8 +135,43 @@ public class FrameInicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:     
+            
+        int tempo=0;
+        switch (this.jComboBox1.getSelectedIndex()) {
+            case 1:
+                tempo=Auxilia[5];
+                break;
+            case 2:
+                tempo=Auxilia[4];
+                break;
+            case 3:
+                tempo=Auxilia[3];
+                break;
+            case 4: 
+                tempo=Auxilia[2];
+                break;
+            case 5:
+                tempo=Auxilia[1];
+                break;
+             case 6:
+                tempo=Auxilia[0];
+             break;
+            default:
+                throw new AssertionError();
+        }
+        
+          Juego j2=new Juego(tempo);
+        j2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        j2.setVisible(true);
+                
+        
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
