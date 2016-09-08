@@ -19,6 +19,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 
 /**
@@ -26,8 +27,9 @@ import javax.swing.JPanel;
  * @author MeraliCastillo
  */
 public class GamePanel extends JPanel implements MouseListener{
-     private JPanel Tablero,HistorialJ,JugaadorTop,PanelScor;
-     private JLabel Scor,dIntentos,faIntentos,DatoMatriz;
+     private JPanel Tablero,HistorialJ,JugadorTop,PanelScor,PanelJugador,titulo;
+     private JLabel Scor,dIntentos,faIntentos,DatoMatriz,Lnombre,Lrecor,LpuntosTotal;
+     private JList Top10;
     private int Fila=0,Columna=0;
     private JLabel l[];
     private JLabel Reiniciar[];
@@ -35,7 +37,7 @@ public class GamePanel extends JPanel implements MouseListener{
     private int controlRepeticiones[];
     private int ControlPareja[];
     private int CantidadDeClic[];
-    private JButton Rei;
+    private JButton Rei,NuevoJuego;
     private int Click=0;
     private int Vista1=0;
     private int vista2=0;
@@ -64,8 +66,9 @@ public class GamePanel extends JPanel implements MouseListener{
             add(Tablero,BorderLayout.CENTER);
             HistorialDeJugdor();            
              LlenadoLabel();
+             MostrarDatosJugardo();
              InicializarComponentes();
-            // TopJugdores();
+            TopJugdores();
             
     }
     // tamaño de la matriz estos parametros van en el gridLayout
@@ -239,19 +242,34 @@ public class GamePanel extends JPanel implements MouseListener{
    }
     // Listado en el lado izquiedo de la pantalla de en tiempo real del top 10 de los mejores jugadores
     private void TopJugdores() {
-      JLabel prueba= new JLabel("Prueba");   
+        JugadorTop=  new JPanel();
+        JugadorTop.setBorder(BorderFactory.createTitledBorder("TOP 10"));
+         JugadorTop.setLayout(new BoxLayout(JugadorTop,BoxLayout.Y_AXIS));
+        add(JugadorTop,BorderLayout.WEST);
+        Top10=new JList();
+        Top10.setFont(new Font("",Font.BOLD,18));
+        Top10.setAlignmentY(Component.RIGHT_ALIGNMENT);       
+        JugadorTop.add(Top10);
+                
+        titulo= new JPanel();
+        JLabel ti= new JLabel("JUEGO DE MEMORIA");
+        ti.setFont(new Font("",Font.BOLD,18));
+        titulo.setBorder(BorderFactory.createTitledBorder(""));        
+        titulo.add(ti);
+        add(titulo,BorderLayout.NORTH);
+        
     }
     //Llenado el historial del jugador en el lado derrecho de la pantalla
     private void HistorialDeJugdor() {
-            JLabel Esta= new JLabel("Prueba");   
-            HistorialJ= new JPanel();
-            HistorialJ.add(Esta);
-            Rei=new JButton();
-            Rei.setText("ONAN");
-            Rei.addMouseListener(this);
-            HistorialJ.add(Rei);
-            HistorialJ.setLayout(new BoxLayout(HistorialJ,BoxLayout.Y_AXIS));            
-            add(HistorialJ,BorderLayout.EAST);
+//            JLabel Esta= new JLabel("Prueba");   
+//            HistorialJ= new JPanel();
+//            HistorialJ.add(Esta);
+////            Rei=new JButton();
+////            Rei.setText("ONAN");
+////            Rei.addMouseListener(this);
+////            HistorialJ.add(Rei);
+//            HistorialJ.setLayout(new BoxLayout(HistorialJ,BoxLayout.Y_AXIS));            
+//            add(HistorialJ,BorderLayout.EAST);
     }
     // muestra los puntajes en el lado izquierdo de la pantalla 
     private void MostrarPuntajes(){
@@ -267,19 +285,21 @@ public class GamePanel extends JPanel implements MouseListener{
         JPanel p4 = new JPanel();
         p4.setBorder(BorderFactory.createTitledBorder("  PUNTOS"));
         
+                
          BoxLayout layout1 = new BoxLayout(p1, BoxLayout.Y_AXIS);
          p1.setLayout(layout1);
 //         //Label MUSTRAR MAATRIZ
         DatoMatriz= new JLabel("");
-        DatoMatriz.setFont(new Font("",Font.BOLD,18));
+        DatoMatriz.setFont(new Font("",Font.BOLD,20));
         DatoMatriz.setAlignmentX(Component.LEFT_ALIGNMENT);
         p1.add(DatoMatriz);
         PanelScor.add(p1);
+        
          
          
         //LABEL NUMERO DE INTENTOS           
         dIntentos=new JLabel("             0           ");
-        dIntentos.setFont(new Font("Helvetica",Font.BOLD,18));
+        dIntentos.setFont(new Font("Helvetica",Font.BOLD,20));
         dIntentos.setAlignmentX(Component.LEFT_ALIGNMENT);
         p2.add(dIntentos);
         PanelScor.add(p2);
@@ -293,10 +313,31 @@ public class GamePanel extends JPanel implements MouseListener{
         
           //LABEL PUTAJE          
         Scor=new JLabel("       0       ");
-        Scor.setFont(new Font("",Font.BOLD,18));
+        Scor.setFont(new Font("",Font.BOLD,20));
         Scor.setAlignmentX(Component.LEFT_ALIGNMENT);
         p4.add(Scor);
         PanelScor.add(p4);
+        
+        //Botones  
+        JPanel p5 = new JPanel();
+        p5.setBorder(BorderFactory.createTitledBorder("BOTONES"));
+        
+        Rei=new JButton("REINICIAR");
+         Rei.addMouseListener(this);
+        Rei.setFont(new Font("",Font.BOLD,16));
+        Rei.setAlignmentX(Component.LEFT_ALIGNMENT);
+        p5.add(Rei);
+        PanelScor.add(p5);
+        
+        NuevoJuego=new JButton("NUEVO JUEGO");
+        NuevoJuego.addMouseListener(this);
+        NuevoJuego.setFont(new Font("",Font.BOLD,16));
+        NuevoJuego.setAlignmentX(Component.LEFT_ALIGNMENT);
+        p5.add(NuevoJuego);
+        PanelScor.add(p5);        
+        BoxLayout layout5 = new BoxLayout(p1, BoxLayout.Y_AXIS);
+         p1.setLayout(layout5);
+         
          
          BoxLayout layout2 = new BoxLayout(p2, BoxLayout.Y_AXIS);
          p2.setLayout(layout2);
@@ -306,6 +347,50 @@ public class GamePanel extends JPanel implements MouseListener{
          p4.setLayout(layout4);   
         PanelScor.setLayout(new BoxLayout(PanelScor,BoxLayout.X_AXIS));
         add(PanelScor,BorderLayout.SOUTH);
+    }
+    //Muestra Todo los datos del jugador actual
+    private void MostrarDatosJugardo(){
+        //Lnombre,Lrecor,LpuntosTotal
+        PanelJugador = new JPanel();
+        PanelJugador.setBorder(BorderFactory.createTitledBorder("JUGADOR ACTUAL"));
+        
+        //PANELES SEGUNDARIOS
+        JPanel p1 = new JPanel();  
+        p1.setBorder(BorderFactory.createTitledBorder("  NOMBRE"));
+        JPanel p2 = new JPanel();  
+        p2.setBorder(BorderFactory.createTitledBorder("  RECOR"));
+        JPanel p3 = new JPanel();  
+        p3.setBorder(BorderFactory.createTitledBorder("  TOTAL PUNTOS"));
+        
+        //datos del nombre
+        Lnombre= new JLabel("     ANONIMO     ");
+        Lnombre.setFont(new Font("",Font.BOLD,18));
+        Lnombre.setAlignmentY(Component.RIGHT_ALIGNMENT);
+        p1.add(Lnombre);
+        PanelJugador.add(p1);
+        //Recor
+        Lrecor= new JLabel("            0             ");
+        Lrecor.setFont(new Font("",Font.BOLD,18));
+        Lrecor.setAlignmentY(Component.RIGHT_ALIGNMENT);
+        p2.add(Lrecor);
+        PanelJugador.add(p2);
+        //total de puntos
+        LpuntosTotal= new JLabel("            0             ");
+        LpuntosTotal.setFont(new Font("",Font.BOLD,18));
+        LpuntosTotal.setAlignmentY(Component.RIGHT_ALIGNMENT);
+        p3.add(LpuntosTotal);
+        PanelJugador.add(p3);
+        
+               
+        BoxLayout layout1 = new BoxLayout(p1, BoxLayout.Y_AXIS);
+         p1.setLayout(layout1);
+         BoxLayout layout2 = new BoxLayout(p2, BoxLayout.Y_AXIS);
+         p2.setLayout(layout2);
+         BoxLayout layout3 = new BoxLayout(p3, BoxLayout.Y_AXIS);
+        p3.setLayout(layout3);
+        PanelJugador.setLayout(new BoxLayout(PanelJugador,BoxLayout.Y_AXIS));
+        add(PanelJugador,BorderLayout.EAST);
+        
     }
         //Validar si al 2 al dar dos click busque la pareja, si no la encuentra que la oculte    
     private void ValidarPareja(int Vist, int vist2) {

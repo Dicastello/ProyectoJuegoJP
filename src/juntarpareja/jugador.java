@@ -10,22 +10,22 @@ package juntarpareja;
  * @author MeraliCastillo
  */
 public class jugador{
-    private String  noombre;
+    private String  nombre;
     private int puntosT=0;
     private  int recor=0;
 
-    public jugador(String nombre, int recors,int puntos) {
-        nombre = noombre;
-        recors = recor;
-        puntos=puntosT;
+    public jugador(String nombre, int recor,int puntosT) {
+        this.nombre = nombre;
+        this.recor = recor;
+        this.puntosT=puntosT;
     }
 
-    public String getNoombre() {
-        return noombre;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNoombre(String noombre) {
-        this.noombre = noombre;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public int getPuntosT() {
