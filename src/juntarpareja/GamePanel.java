@@ -44,7 +44,7 @@ public class GamePanel extends JPanel implements MouseListener{
     private int Puntos=0;
     private int intentos=0;
     private int intentoF=0;
-    private int cant=0;
+    private int cant=0,c=0;
     private int inicio;
     
     
@@ -63,8 +63,7 @@ public class GamePanel extends JPanel implements MouseListener{
              MostrarPuntajes();
             TamañoMatriz();
             Tablero.setLayout(new GridLayout(Fila,Columna,10,10));            
-            add(Tablero,BorderLayout.CENTER);
-            HistorialDeJugdor();            
+            add(Tablero,BorderLayout.CENTER);                  
              LlenadoLabel();
              MostrarDatosJugardo();
              InicializarComponentes();
@@ -198,10 +197,13 @@ public class GamePanel extends JPanel implements MouseListener{
                     }
                
                 }
-                                
+                          
             }
             
         }
+    }
+    private void Guardar(){
+        
     }
 
     @Override
@@ -219,11 +221,16 @@ public class GamePanel extends JPanel implements MouseListener{
             if (e.getSource()==Reiniciar[i]) {
                 if (Click==2) {
                     ValidarPareja(Vista1,vista2);
-                    Click=0;
+               Click=0;
+            // Validar que se hago el juego
+           if (c==3) {
+            System.out.println("gano el suego");
+                }          
                     System.out.println("vistas 1 y 2      "+Vista1+vista2);                        
                 }
             }
         }
+        
            
     }
     //Se Nicializan en O
@@ -397,6 +404,8 @@ public class GamePanel extends JPanel implements MouseListener{
         if (ArreNumerico[Vist]==ArreNumerico[vist2]) {
             Puntos+=10;
             Scor.setText("     "+Puntos+"     ");
+            c++;
+                    System.out.println("Cantidad de parejas encontradas"+c);
             ControlPareja[Vist]=1;
             ControlPareja[vist2]=1;
             
@@ -419,9 +428,15 @@ public class GamePanel extends JPanel implements MouseListener{
         if (ControlPareja[i]!=1) {
           return true;      
         }else{
+            System.out.println("gano");
              return false;
+             
         }       
          }
+    
+    private void AgregarTopo(){
+        
+    }
     
    
    

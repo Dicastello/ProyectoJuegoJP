@@ -14,6 +14,9 @@ public class jugador{
     private int puntosT=0;
     private  int recor=0;
 
+    public jugador() {
+    }
+
     public jugador(String nombre, int recor,int puntosT) {
         this.nombre = nombre;
         this.recor = recor;
