@@ -5,16 +5,20 @@
  */
 package juntarpareja;
 
+import java.io.Serializable;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+
 /**
  *
  * @author MeraliCastillo
  */
-public class Lista {
+public class Lista implements Serializable{
     private Nodo cabeza = null;
    
     
     //Clase nodo
-    public class Nodo{
+    public class Nodo implements Serializable{
     public jugador jugador;
     public Nodo siguiente = null;
  
@@ -23,6 +27,31 @@ public class Lista {
         }
     
     }
+    // Insertar en ujador a la Lizta
+    public Lista InsertarNodo(jugador Jugador){
+        Nodo nuevo = new Nodo(Jugador);
+        nuevo.siguiente= cabeza;
+        cabeza=nuevo;
+        return this;
+        
+    } 
+    public  void VisualizarJugador(JList l){
+        Nodo temp= cabeza;
+        
+        while(temp!=null){
+         //   l=new JList();
+         DefaultListModel modelo= new DefaultListModel();
+        String Elemento[]={temp.jugador.getNombre(),Integer.toString(temp.jugador.getRecor()),Integer.toString(temp.jugador.getPuntosT())}; 
+         l.setModel(modelo);     
+        modelo.addElement(Elemento);
+             
+          System.out.println(temp.jugador.getNombre());
+            System.out.println(temp.jugador.getRecor());
+            System.out.println(temp.jugador.getPuntosT());
+            temp=temp.siguiente;
+            System.out.println("");  
+        }   
+     }
     //Insetar al principio
     public void InsertarPrincipio(jugador Jugador){
         Nodo nodo= new Nodo(Jugador);
@@ -69,6 +98,7 @@ public class Lista {
              }
         }
     }
+     
      
     
             

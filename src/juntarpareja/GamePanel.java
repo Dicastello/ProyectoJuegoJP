@@ -12,21 +12,32 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
  *
  * @author MeraliCastillo
  */
-public class GamePanel extends JPanel implements MouseListener{
+public class GamePanel extends JPanel implements MouseListener, Serializable {
      private JPanel Tablero,HistorialJ,JugadorTop,PanelScor,PanelJugador,titulo;
      private JLabel Scor,dIntentos,faIntentos,DatoMatriz,Lnombre,Lrecor,LpuntosTotal;
      private JList Top10;
@@ -46,9 +57,12 @@ public class GamePanel extends JPanel implements MouseListener{
     private int intentoF=0;
     private int cant=0,c=0;
     private int inicio;
+    private Lista ListaJugador;
+    private String nombre;
     
     
-    public GamePanel(int i) {   
+    public GamePanel(int i) {  
+        ListaJugador= new Lista();
         inicio=i; 
         l=new JLabel[inicio];
         Reiniciar=new JLabel[inicio];        
@@ -66,9 +80,25 @@ public class GamePanel extends JPanel implements MouseListener{
             add(Tablero,BorderLayout.CENTER);                  
              LlenadoLabel();
              MostrarDatosJugardo();
-             InicializarComponentes();
+             InicializarComponentes();             
             TopJugdores();
-            
+            //PrimerDato();
+            CargarTabla();
+          //  LeerEscribir();
+//            
+//            DefaultListModel modelo= new DefaultListModel();
+//        String Elemento[]={"MISAEL"}; 
+//         this.Top10.setModel(modelo);     
+//        modelo.addElement(Elemento);
+    }
+    private void CargarTabla(){
+         try {
+             ObjectInputStream Leer= new ObjectInputStream(new FileInputStream("Data.txt"));
+             Lista jugador=(Lista) Leer.readObject();
+             jugador.VisualizarJugador(Top10);
+         } catch (Exception ex) {
+             ex.getMessage();
+         }
     }
     // tamaño de la matriz estos parametros van en el gridLayout
     private void TamañoMatriz(){
@@ -147,19 +177,19 @@ public class GamePanel extends JPanel implements MouseListener{
             if (controlRepeticiones[PosicionImagen]<2) {
                 ArreNumerico[i]=PosicionImagen+1;   
                 controlRepeticiones[PosicionImagen]++;
-                System.out.print(ArreNumerico[i]+",");
+               // System.out.print(ArreNumerico[i]+",");
             }else{
                 i--;
             }            
         }
         for (int i = 0; i <controlRepeticiones.length; i++) {
-            System.out.print(controlRepeticiones[i]+"");
+            //System.out.print(controlRepeticiones[i]+"");
         }
     } 
     private void RenicializarVariables(){
                 Puntos=0;                
                 Click=0;
-                System.out.println(" puntoo   "+Puntos);
+                //System.out.println(" puntoo   "+Puntos);
                 Vista1=0;
                 vista2=0;
                 Scor.setText("       0      ");
@@ -176,22 +206,27 @@ public class GamePanel extends JPanel implements MouseListener{
             RenicializarVariables();                
                 
             }
+//        if (true) {
+//            Juego j2=new Juego(tempo);
+//        j2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        }
+        
         for (int i = 0; i < Reiniciar.length; i++) {
             if (e.getSource()==Reiniciar[i]&& VerificarParejas(i)) { 
                 CantidadDeClic[i]++;                
                 if (CantidadDeClic[i]<2) {
                   Click++;             
-                System.out.println(" click sair "+Click);
+               // System.out.println(" click sair "+Click);
                 Reiniciar[i].setIcon(AjustarImagen("/Imagen/"+ArreNumerico[i]+".jpg")); 
-                    for (int j = 0; j < ArreNumerico.length; j++) {
-                        System.out.println(j+"       "+this.ArreNumerico[j]);
-                    }
+//                    for (int j = 0; j < ArreNumerico.length; j++) {
+//                        System.out.println(j+"       "+this.ArreNumerico[j]);
+//                    }
                 if(Click==1){
                     Vista1 = i;   
-                           System.out.println("Vista 1   "+Vista1);
+                        ////   System.out.println("Vista 1   "+Vista1);
                     }else{
                     vista2=i;
-                           System.out.println("Vista 2  "+vista2);
+                          // System.out.println("Vista 2  "+vista2);
                    intentos++;
                 this.dIntentos.setText("            "+intentos+"            ");
                     }
@@ -202,10 +237,31 @@ public class GamePanel extends JPanel implements MouseListener{
             
         }
     }
-    private void Guardar(){
-        
+        private void LeerEscribir(String n, int r,int t){
+         try {
+             ObjectInputStream leer= new ObjectInputStream(new FileInputStream("Data.txt"));
+             ListaJugador=(Lista) leer.readObject();
+             leer.close();
+           //ListaJugador.VisualizarJugador(this.Top10);
+              jugador j=new jugador(n,r,t);
+              
+              FileOutputStream out  =new FileOutputStream("Data.txt");
+             ObjectOutputStream salida= new ObjectOutputStream(out);
+            
+            ListaJugador.InsertarNodo(j);
+             salida.writeObject(ListaJugador);
+             salida.flush();
+            
+            // listajugador.VisualizarJugador();
+         } catch (Exception ex) {
+             Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
+         }
     }
-
+    
+    private void AgregarJugado(String n,int r,int t){
+        jugador j=new jugador(n,r,t);
+        ListaJugador.InsertarNodo(j);
+    }   
     @Override
     public void mousePressed(MouseEvent e) { }
 
@@ -223,8 +279,16 @@ public class GamePanel extends JPanel implements MouseListener{
                     ValidarPareja(Vista1,vista2);
                Click=0;
             // Validar que se hago el juego
-           if (c==3) {
-            System.out.println("gano el suego");
+           if (c==inicio/2) {              
+               
+               nombre=JOptionPane.showInputDialog(null, "                  INGRESE SU NOMBRE", "JUEGO TERMINADO", JOptionPane.DEFAULT_OPTION);
+               String re=this.Scor.getText();
+               String Total= this.Scor.getText();
+                LeerEscribir(nombre, Puntos,Puntos);
+               System.out.println("gano el suego");
+               
+               c=0;
+            
                 }          
                     System.out.println("vistas 1 y 2      "+Vista1+vista2);                        
                 }
@@ -405,7 +469,7 @@ public class GamePanel extends JPanel implements MouseListener{
             Puntos+=10;
             Scor.setText("     "+Puntos+"     ");
             c++;
-                    System.out.println("Cantidad de parejas encontradas"+c);
+                   // System.out.println("Cantidad de parejas encontradas"+c);
             ControlPareja[Vist]=1;
             ControlPareja[vist2]=1;
             
@@ -434,8 +498,23 @@ public class GamePanel extends JPanel implements MouseListener{
         }       
          }
     
-    private void AgregarTopo(){
+    private void AgregarTop(){
         
+    }
+
+    private void PrimerDato() {
+         jugador j1=new jugador("Onan",50,100);
+         this.ListaJugador.InsertarNodo(j1);
+         try {
+        FileOutputStream out = new FileOutputStream("Data.txt");
+        ObjectOutputStream salida= new ObjectOutputStream(out);
+        salida.writeObject(ListaJugador);
+        salida.flush();
+         } catch (Exception ex) {
+             Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        
+
     }
     
    

@@ -5,16 +5,21 @@
  */
 package juntarpareja;
 
+import java.io.Serializable;
+
 /**
  *
  * @author MeraliCastillo
  */
-public class jugador{
+public class jugador implements Serializable{
     private String  nombre;
     private int puntosT=0;
     private  int recor=0;
 
     public jugador() {
+    }
+    public jugador(String nombre){
+        this.nombre=nombre;
     }
 
     public jugador(String nombre, int recor,int puntosT) {

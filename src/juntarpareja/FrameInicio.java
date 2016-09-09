@@ -5,22 +5,66 @@
  */
 package juntarpareja;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 /**
  *
  * @author MeraliCastillo
  */
-public class FrameInicio extends javax.swing.JFrame {
+public class FrameInicio extends javax.swing.JFrame implements Serializable{
       private int Auxilia[]={6,12,16,20,24,30};
+      private Lista lista;
     /**30
      * Creates new form FrameInicio
      */
     public FrameInicio() {
+        lista = new Lista();
         initComponents();
         setLocationRelativeTo(null);
+       //GuadarNombre();
+       
+        //LeerNOmbre();
     }
-
+    private void GuadarNombre(){
+        try {
+//            jugador j1=new jugador("onan",50,100);
+//            jugador j2=new jugador("castillo",150,10);
+//            lista.InsertarNodo(j1);
+//            lista.InsertarNodo(j2);
+//            
+//            jugador j3=new jugador("delcid",10,500);
+//            lista.InsertarNodo(j3);
+             FileOutputStream out  =new FileOutputStream("Data.txt");
+             ObjectOutputStream salida= new ObjectOutputStream(out);
+             salida.writeObject(lista);
+             salida.flush();
+         } catch (IOException ex) {
+             ex.getMessage();
+         } 
+    }
+    private void CapturarNombre(){
+ 
+        
+    }
+     private void LeerNOmbre(){
+         try {
+             ObjectInputStream leer= new ObjectInputStream(new FileInputStream("Data.txt"));
+             Lista listajugador=(Lista) leer.readObject();
+             //listajugador.VisualizarJugador(); 
+             leer.close();
+             
+         } catch (Exception ex) {
+             Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
+         } 
+     }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,9 +77,7 @@ public class FrameInicio extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextNombre = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
 
@@ -48,11 +90,9 @@ public class FrameInicio extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("")));
 
-        jLabel1.setText("NOMBRE");
-
         jLabel2.setText("MATRIZ");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "    ", " 15   PAREJAS", " 12   PAREJAS ", " 10   PAREJAS "," 8   PAREJAS ", " 6   PAREJAS"," 4   PAREJA" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "    ", " 15   PAREJAS", " 12   PAREJAS ", " 10   PAREJAS "," 8   PAREJAS ", " 6   PAREJAS"," 3   PAREJA" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -72,25 +112,17 @@ public class FrameInicio extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(42, 42, 42)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTextNombre)
-                        .addComponent(jComboBox1, 0, 149, Short.MAX_VALUE)))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(145, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(75, 75, 75)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -136,7 +168,8 @@ public class FrameInicio extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:     
-            
+                    
+        CapturarNombre();
         int tempo=0;
         switch (this.jComboBox1.getSelectedIndex()) {
             case 1:
@@ -211,11 +244,9 @@ public class FrameInicio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextNombre;
     // End of variables declaration//GEN-END:variables
 }

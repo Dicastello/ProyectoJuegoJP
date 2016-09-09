@@ -10,14 +10,15 @@ import java.awt.*;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.Serializable;
 import javax.swing.*;
 
 /**
  *
  * @author MeraliCastillo
  */
-public class Juego extends JFrame{
-        int n=12;
+public class Juego extends JFrame implements Serializable{
+        int n=0;
     public Juego(int aux) {
         n=aux;
         Pantalla(aux);   
